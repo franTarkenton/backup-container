@@ -8,9 +8,9 @@ ENV TZ=PST8PDT
 WORKDIR /
 
 # Load the backup scripts into the container (must be executable).
-COPY backup.* /
+COPY docker/backup.* /
 
-COPY webhook-template.json /
+COPY docker/webhook-template.json /
 
 # ========================================================================================================
 # Install go-crond (from https://github.com/BCDevOps/go-crond)
