@@ -69,8 +69,8 @@ jobs:
 
     # -------- CREATE THE DOCKER IMAGE --------
     - name: Build and Publish Docker image
-        uses: VaultVulp/gp-docker-action@1.1.7
-        with:
+      uses: VaultVulp/gp-docker-action@1.1.7
+      with:
           github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
           image-name: kirk-backup # Provide Docker image name
           image-tag: ${{ steps.calculateImageTag.outputs.DOCKER_VERSION_TAG }} # Provide Docker image tag
