@@ -14,3 +14,7 @@
 .env
 backups
 docker/backup.conf
+
+junk_dp_config.yaml
+
+{"auths":{"docker.pkg.github.com/bcgov/bcdc-smk/bcdc-smk":{"username":"franTarkenton","password":"2623c0d96ad12b9a84137a43142ed9f3f0651654","email":"kevin.netherton@gov.bc.ca","auth":"franTarkenton:2623c0d96ad12b9a84137a43142ed9f3f0651654"}}}

@@ -5,15 +5,15 @@ name: BUILDPackage
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 # -------- DEBUGGING --------
-on: 
-  push:
-    branches: ['dev']
+# on: 
+#   push:
+#     branches: ['dev']
 
 
-# on:
-#   pull_request:
-#     branches: ['master']
-#     types: ['opened', 'reopened']
+on:
+  pull_request:
+    branches: ['master']
+    types: ['opened', 'reopened']
 
 jobs:
   # This workflow contains a single job called "build"
@@ -76,19 +76,9 @@ jobs:
           image-tag: ${{ steps.calculateImageTag.outputs.DOCKER_VERSION_TAG }} # Provide Docker image tag
           dockerfile: docker/Dockerfile
 
-    # - name: Create the docker image
-    #   uses: docker/build-push-action@v1
-    #   with:
-    #     registry: docker.pkg.github.com
-    #     username: $GITHUB_ACTOR
-    #     password: ${{ secrets.GITHUB_TOKEN  }}
-    #     repository: bcgov/bcdc-smk/bcdc-smk
-    #     tag_with_ref: true
-    #     tag_with_sha: true
-    #     add_git_labels: true
-    #     tags: ${{ steps.calculateImageTag.outputs.DOCKER_VERSION_TAG }}
-    #     push: true
 
+
+          
     # # -------- DEBUGGING uncomment when done --------
     # - name: Tag the pull request with build tag
     #   id: tagpullrequest

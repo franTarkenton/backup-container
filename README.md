@@ -435,8 +435,11 @@ The following outlines the deployment of a simple backup of three PostgreSQL dat
   }
 },
 ```
-Note that underscores should be used in the environment variable names.
+
+*Note that underscores should be used in the environment variable names.*
+
 7. Create your customized `./openshift/backup-deploy.overrides.param` parameter file
+
 8. Deploy the app; here the example namespace is `b7cg3n-deploy` and the app name is `nrmsurveys-bkup`:
 ```bash
 oc -n b7cg3n-deploy create configmap backup-conf --from-file=./config/backup.conf

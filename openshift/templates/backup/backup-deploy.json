@@ -59,6 +59,18 @@
     {
       "kind": "Secret",
       "apiVersion": "v1",
+      "data": {
+          ".dockerconfigjson": "${GITHUB_PACKAGE_ACCESS_JSON_BASE64}"
+      },
+      "metadata": {
+          "name": "${GITHUB_PACKAGE_ACCESS_SECRET_NAME}",
+          "namespace": "${DEPLOY_NAMESPACE}"
+      },
+      "type": "kubernetes.io/dockerconfigjson"
+    },
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
       "metadata": {
         "name": "${FTP_SECRET_KEY}"
       },
@@ -85,23 +97,6 @@
         "strategy": {
           "type": "Recreate"
         },
-        "triggers": [
-          {
-            "type": "ConfigChange"
-          },
-          {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": ["${NAME}"],
-              "from": {
-                "kind": "ImageStreamTag",
-                "namespace": "${IMAGE_NAMESPACE}",
-                "name": "${SOURCE_IMAGE_NAME}:${TAG_NAME}"
-              }
-            }
-          }
-        ],
         "replicas": 1,
         "selector": {
           "name": "${NAME}"
@@ -143,7 +138,7 @@
             "containers": [
               {
                 "name": "${NAME}",
-                "image": "",
+                "image": "${IMAGE_SOURCE}${SOURCE_IMAGE_NAME}:${IMAGE_LABEL}",
                 "ports": [],
                 "env": [
                   {
@@ -279,7 +274,8 @@
                   }
                 ]
               }
-            ]
+            ],
+            "imagePullSecrets": [{"name": "${GITHUB_PACKAGE_ACCESS_SECRET_NAME}"}]
           }
         }
       }
@@ -301,11 +297,25 @@
       "value": "backup-postgres"
     },
     {
+      "name": "IMAGE_LABEL",
+      "displayName": "External image tag / label",
+      "description": "the image tab / label to deploy",
+      "required": true,
+      "value": ""
+    },
+    {
+      "name": "IMAGE_SOURCE",
+      "displayName": "External image stream reference",
+      "description": "github packages image location",
+      "required": true,
+      "value": ""
+    },
+    {
       "name": "IMAGE_NAMESPACE",
       "displayName": "Image Namespace",
       "description": "The namespace of the OpenShift project containing the imagestream for the application.",
-      "required": true,
-      "value": "backup-container"
+      "required": false,
+      "value": ""
     },
     {
       "name": "TAG_NAME",
@@ -564,6 +574,27 @@
       "description": "The resources Memory limit (in Mi, Gi, etc) for this build.",
       "required": true,
       "value": "0Mi"
+    },
+    {
+      "name": "DEPLOY_NAMESPACE",
+      "displayName": "oc namespace",
+      "description": "oc namespace to deploy backup to.",
+      "required": true,
+      "value": ""
+    },
+    {
+      "name": "GITHUB_PACKAGE_ACCESS_SECRET_NAME",
+      "displayName": "GITHUB package secret",
+      "description": "name of the secret used to access the github package / image stream",
+      "required": true,
+      "value": ""
+    },
+    {
+      "name": "GITHUB_PACKAGE_ACCESS_JSON_BASE64",
+      "displayName": "base64 image access key",
+      "description": "base64 image access key",
+      "required": true,
+      "value": ""
     }
   ]
 }
